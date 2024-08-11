@@ -5,11 +5,10 @@ import (
 	"time"
 )
 
-func equalsInt(a, b int) bool {
-	return a == b
-}
-
 func TestQueue_Has(t *testing.T) {
+	equalsInt := func(a, b int) bool {
+		return a == b
+	}
 	q := NewQueue[int](10*time.Second, equalsInt)
 	q.equalsFunc = equalsInt
 
