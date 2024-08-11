@@ -9,6 +9,7 @@ func (q *Queue[T]) Pop() (T, bool) {
 		var zero T
 		return zero, false
 	}
+
 	value := q.head.value
 	q.head = q.head.next
 	if q.head == nil {

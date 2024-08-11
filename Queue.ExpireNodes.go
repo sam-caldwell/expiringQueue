@@ -1,6 +1,8 @@
 package expiringQueue
 
-import "time"
+import (
+	"time"
+)
 
 // expireNodes - run in the background to expire nodes by age.
 func (q *Queue[T]) expireNodes() {
@@ -17,9 +19,12 @@ func (q *Queue[T]) expireNodes() {
 		}
 		now := time.Now().UnixNano()
 		for node := q.head; node != nil; node = node.next {
-			if age := node.timestamp - now; age > q.expiration && q.deleteNode(node, prev) {
-				q.lock.Unlock()
-				return
+			age := node.timestamp - now
+			if (age - q.expiration) < 0 {
+				if q.deleteNode(node, prev) {
+					q.lock.Unlock()
+					return
+				}
 			}
 			prev = node
 		}

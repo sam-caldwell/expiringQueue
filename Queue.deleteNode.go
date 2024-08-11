@@ -1,5 +1,9 @@
 package expiringQueue
 
+import (
+	"runtime"
+)
+
 // deleteNode - delete the head node
 func (q *Queue[T]) deleteNode(n, p *Node[T]) bool {
 	if p == nil {
@@ -17,5 +21,6 @@ func (q *Queue[T]) deleteNode(n, p *Node[T]) bool {
 	n.next = nil // Clear the next pointer of the deleted node
 	q.count--
 	q.pauseExpirationTask = q.count == 0
+	runtime.GC()
 	return q.pauseExpirationTask
 }
