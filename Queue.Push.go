@@ -21,5 +21,5 @@ func (q *Queue[T]) Push(element T) {
 	}
 	q.count++
 	q.pauseExpirationTask = false
-	go q.expireNodes(q.expiration)
+	go q.expireNodes()
 }
